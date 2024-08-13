@@ -10,12 +10,11 @@ import { FloatLabel } from 'primereact/floatlabel';
 import { Dropdown } from 'primereact/dropdown';
 
 function App() {
-  const [value, setValue] = useState('');
+  const [longLink, setlongLink] = useState('');
+  const [alias, setalias] = useState('');
   const [selectedCity, setSelectedCity] = useState(null);
   const cities = [
-    { name: 'testUrl0.com' },
-    { name: 'testUrl1.com' },
-    { name: 'testUrl2.com' },
+    'testUrl0.com', 'testUrl1.com', 'testUrl2.com',
   ];
 
   return (
@@ -24,18 +23,18 @@ function App() {
       <label>Shorten a long URL</label>
       <br />
       <br />
-      <InputText id="username" placeholder="Enter long link here" value={value} onChange={(e) => setValue(e.target.value)} />
+      <InputText id="longLink" placeholder="Enter long link here" value={longLink} onChange={(e) => setlongLink(e.target.value)} />
       <br />
       <br />
       <br />
 
-      <div className="card flex justify-content-center">
+      <div className="card flex flex-wrap justify-content-center gap-6">
 
         <label>Customize your link</label>
         <br />
         <br />
-        <Dropdown value={selectedCity} onChange={(e) => setSelectedCity(e.value)} options={cities} optionLabel="name" className="w-full md:w-14rem" />
-
+        <Dropdown placeholder="Select a URL template" value={selectedCity} onChange={(e) => { setSelectedCity(e.value); }} options={cities} optionLabel="name" className="w-full md:w-14rem" />
+        <InputText id="alias" placeholder="Enter alias" value={alias} onChange={(e) => setalias(e.target.value)} />
       </div>
 
     </div>
