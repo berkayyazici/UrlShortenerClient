@@ -10,13 +10,14 @@ function App() {
   const [longLink, setLongLink] = useState('');
   const [shortLink, setShortLink] = useState('');
   const [alias, setAlias] = useState('');
-  const [selectedLink, setSelectedLink] = useState(null);
+  const [selectedLink, setSelectedLink] = useState('');
   const [data, setData] = useState(null);
   const url = "http://localhost:5066/api/Url";
 
   const request = {
     longUrl: longLink,
-    headerLink: selectedLink
+    headerLink: selectedLink,
+    shortUrl: ''
   }
 
   const links = [
@@ -37,16 +38,17 @@ function App() {
   }
 
   function sendCreateShortUrlRequest() {
-    fetch(url + '/GetShortUrl', {
+    fetch(url + '/GetShortUrl?longUrl=' + request.longUrl + '&headerLink=' + request.headerLink, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ request })
-      //body: 'longUrl=' + { longLink } + '&headerLink=' + { alias }
     })
-      .then(response => { response.json() })
-      .then(data => { })
+      .then(response => { response.text() })
+      .then(data => {
+        request.shortUrl = data;
+
+        <div>
+          <label> Your shorten link :  {request.shortUrl}</label>
+        </div>
+      })
       .catch(error => console.error('Error:', error));
   }
 
@@ -77,10 +79,6 @@ function App() {
         <Button onClick={sendGetAllUrlRequest}>Get All Shorten URL</Button>
       </div>
 
-
-      <div style={{ isVisible: 'false' }}>
-        <label > Your shorten link :  {shortLink}</label>
-      </div>
 
 
     </div>
