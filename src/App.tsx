@@ -5,6 +5,8 @@ import { Button } from 'primereact/button'
 import { InputText } from 'primereact/inputtext';
 import 'primereact/resources/themes/bootstrap4-dark-blue/theme.css';
 import { Dropdown } from 'primereact/dropdown';
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
 
 function App() {
   const [longLink, setLongLink] = useState('');
@@ -30,9 +32,7 @@ function App() {
     fetch(url)
       .then(response => response.json())
       .then(data => {
-        data.forEach(item => {
-          console.log(item.longUrl);
-        });
+        setData(data);
       })
       .catch(error => console.error('Error:', error));
   }
@@ -43,11 +43,7 @@ function App() {
     })
       .then(response => { response.text() })
       .then(data => {
-        request.shortUrl = data;
-
-        <div>
-          <label> Your shorten link :  {request.shortUrl}</label>
-        </div>
+        sendGetAllUrlRequest()
       })
       .catch(error => console.error('Error:', error));
   }
@@ -79,7 +75,15 @@ function App() {
         <Button onClick={sendGetAllUrlRequest}>Get All Shorten URL</Button>
       </div>
 
+      <br></br>
 
+      <div>
+        <DataTable value={data}>
+          <Column field="id" header="ID"></Column>
+          <Column field="shortUrl" header="SHORT URL"></Column>
+          <Column field="longUrl" header="LONG URL"></Column>
+        </DataTable>
+      </div>
 
     </div>
   )
